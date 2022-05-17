@@ -6,6 +6,7 @@
   "module": "dist/index.esm.js",
   "scripts": {
     "build": "rollup -c",
+    "ipublish": "pnpm publish --no-git-checks --registry https://registry.npmjs.org/ --access public",
     "prepublish": "pnpm build"
   },
   "author": "Rikka",
