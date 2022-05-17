@@ -1,7 +1,7 @@
 import typescript from "rollup-plugin-typescript2";
 import { resolve } from "path";
 import { rmdirSync } from "fs";
-
+import dts from "rollup-plugin-dts";
 const config = [
   {
     input: "src/index.ts",
@@ -21,6 +21,11 @@ const config = [
       }
     ],
   },
+  {
+    input: "src/index.ts",
+    plugins: [dts()],
+    output: [{ file: "dist/types.d.ts", format: "es" }]
+  }
 ];
 function buildUtil() {
   return {
