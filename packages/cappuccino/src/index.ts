@@ -6,7 +6,7 @@ interface CappuccinoOptions {
 
 interface Plugin {
   rules: Record<string, Rule.RuleModule>;
-  configs?: Record<string, Linter.Config>;
+  configs?: Record<string, Linter.Config|Linter.ConfigOverride>;
   processors?: Record<string, Linter.Processor>;
   environments?: Record<
     string,
@@ -25,8 +25,8 @@ interface RuleInfo {
 }
 
 class Cappuccino {
-  private pluginName: string;
-  private plugins: Record<string,Plugin> = {};
+  public pluginName: string;
+  public plugins: Record<string,Plugin> = {};
 
   constructor(options: CappuccinoOptions) {
     this.pluginName = options.pluginName;
@@ -97,7 +97,7 @@ class Cappuccino {
             return {
                 rules:Object.assign({},
                     ...Object.entries(this.plugins).map(([pluginName, plugin]) => {
-                        const config = plugin.configs && plugin.configs.recommended
+                        const config = (plugin.configs && plugin.configs.recommended) as Linter.Config<Linter.RulesRecord>
                         if (!config || !config.rules) {
                           return null
                         }
